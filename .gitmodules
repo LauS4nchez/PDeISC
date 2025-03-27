@@ -1,3 +1,6 @@
 [submodule "MundoNews-v1.0"]
 	path = MundoNews-v1.0
 	url = https://github.com/LauS4nchez/PDeISC.git
+[submodule "MundoNews-v1.2"]
+	path = MundoNews-v1.2
+	url = https://github.com/LauS4nchez/PDeISC.git
