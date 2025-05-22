@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body class="container mt-4">
+    <h1>Ejercicio 1</h1>
+
+    <!-- Formulario para Frutas -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>Agregar Frutas</h3>
+            <form id="formFrutas">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="inputFruta" placeholder="Nombre de la fruta" required>
+                </div>
+                <button type="submit" class="btn btn-success">Agregar Fruta</button>
+            </form>
+            <button id="desplegarFrutas" class="btn btn-primary mt-3">Mostrar Frutas</button>
+            <div id="frutas" class="mt-3"></div>
+        </div>
+    </div>
+
+    <!-- Formulario para Amigos -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>Agregar Amigos</h3>
+            <form id="formAmigos">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="inputAmigo" placeholder="Nombre del amigo" required>
+                </div>
+                <button type="submit" class="btn btn-success">Agregar Amigo</button>
+            </form>
+            <button id="desplegarAmigos" class="btn btn-primary mt-3">Mostrar Amigos</button>
+            <div id="amigos" class="mt-3"></div>
+        </div>
+    </div>
+
+        <!-- Formulario para números -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Agregar Números</h3>
+                <form id="formNumeros">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="inputNumero" placeholder="Agregue un Número" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Agregar Número</button>
+                </form>
+                <button id="desplegarNumeros" class="btn btn-primary mt-3">Mostrar Números</button>
+                <div id="numeros" class="mt-3"></div>
+            </div>
+        </div>
+
+    <script src="/scripts/ejercicio1.js"></script>  
+</body>
+</html>
