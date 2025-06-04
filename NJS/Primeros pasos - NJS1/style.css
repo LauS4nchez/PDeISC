@@ -1,0 +1,11 @@
+body
+{
+    background-color: rgb(224, 237, 247);
+}
+
+table
+{
+    max-width: 500px;
+    margin: auto;
+    margin-top: 50px;
+}
