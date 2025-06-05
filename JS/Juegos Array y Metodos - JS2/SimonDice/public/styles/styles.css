@@ -71,10 +71,7 @@ body {
 }
 
 #start {
-    position: absolute;
-    bottom: 20px;
     padding: 15px 30px;
-    
     background: #6e45e2;
     color: white;
     border: none;
@@ -83,9 +80,10 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: 1px;
-    
     transition: all 0.3s ease;
     cursor: pointer;
+    display: block;
+    margin: 0 auto;
 }
 
 #start:hover {
