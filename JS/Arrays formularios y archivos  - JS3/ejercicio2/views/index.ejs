@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Proyecto 2 - Filtrado de Números</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white p-4">
+
+  <div class="container">
+    <h1 class="mb-4">Proyecto 2: Filtrado de Archivo .txt</h1>
+
+    <input type="file" id="archivoTxt" accept=".txt" class="form-control mb-3">
+    <button onclick="leerArchivo()" class="btn btn-warning mb-2">Procesar archivo</button>
+    <div id="mensaje" class="mt-2 text-warning"></div>
+
+
+    <div id="resultadoFiltrado" class="mb-4"></div>
+    <a id="descargarFiltrado" style="display: none;" class="btn btn-info">Descargar archivo filtrado</a>
+  </div>
+
+  <script src="scripts/ejercicio2.js"></script>
+</body>
+</html>
