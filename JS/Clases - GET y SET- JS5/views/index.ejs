@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Animal - Zoológico</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Nuestro CSS personalizado -->
+    <link href="styles/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Agregar Animal al Zoológico</h1>
+        <form id="formAnimal">
+            <!-- ID Animal -->
+            <div class="mb-3">
+                <label for="idAnimal" class="form-label">ID Animal</label>
+                <input type="number" class="form-control" id="idAnimal" name="idAnimal" required>
+            </div>
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+
+            <!-- Número de Jaula -->
+            <div class="mb-3">
+                <label for="jaulaNumero" class="form-label">Número de Jaula</label>
+                <input type="number" class="form-control" id="jaulaNumero" name="jaulaNumero" required>
+            </div>
+
+            <!-- Tipo de Animal (Select) -->
+            <div class="mb-3">
+                <label for="idTypeAnimal" class="form-label">Tipo de Animal</label>
+                <select class="form-select" id="idTypeAnimal" name="idTypeAnimal" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    <option value="1">Felino</option>
+                    <option value="2">Ave</option>
+                    <option value="3">Reptil</option>
+                    <option value="4">Mamífero</option>
+                    <option value="5">Acuático</option>
+                </select>
+            </div>
+
+            <!-- Peso -->
+            <div class="mb-3">
+                <label for="peso" class="form-label">Peso (kg)</label>
+                <input type="number" step="0.1" class="form-control" id="peso" name="peso" required>
+            </div>
+
+            <!-- Botón de Envío -->
+            <button type="submit" class="btn btn-primary">Guardar Animal</button>
+        </form>
+    </div>
+
+        <div id="resultados"></div>
+        <div id="divAnimal"></div>
+    </div>
+    <script type="module" src="scripts/ejercicio1.js"></script>
+</body>
+</html>
