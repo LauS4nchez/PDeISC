@@ -1,0 +1,11 @@
+.header-hola {
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(90deg, #1fadd8, #597497);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 40px 0;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
