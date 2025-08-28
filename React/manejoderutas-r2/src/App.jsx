@@ -1,45 +1,28 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ListaTareas from "./pages/Home";
-import CrearTarea from "./pages/CrearTarea";
-import EditarTarea from "./pages/EditarTarea";
-import tareasData from "./datos/tareas";
+import { Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import TaskDetail from './pages/TaskDetail.jsx'
+import CreateTask from './pages/CreateTask.jsx'
 
 function App() {
-  const [tareas, setTareas] = useState(tareasData);
-
-  // Eliminar tarea
-  const eliminarTarea = (id) => {
-    setTareas(tareas.filter((t) => t.id !== id));
-  };
-
-  // Modificar tarea
-  const actualizarTarea = (id, nuevaTarea) => {
-    setTareas(
-      tareas.map((t) => (t.id === id ? { ...t, ...nuevaTarea } : t))
-    );
-  };
-
-  // Crear nueva tarea
-  const agregarTarea = (tarea) => {
-    setTareas([...tareas, { ...tarea, id: Date.now() }]);
-  };
-
   return (
-    <Router>
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container">
+          <span className="navbar-brand">Manejo de Rutas - R2</span>
+          <div className="d-flex">
+            <Link to="/" className="btn btn-outline-light me-2">Inicio</Link>
+            <Link to="/create" className="btn btn-outline-light">Crear Tarea</Link>
+          </div>
+        </div>
+      </nav>
+
       <Routes>
-        <Route
-          path="/"
-          element={<ListaTareas tareas={tareas} eliminarTarea={eliminarTarea} />}
-        />
-        <Route path="/crear" element={<CrearTarea agregarTarea={agregarTarea} />} />
-        <Route
-          path="/editar/:id"
-          element={<EditarTarea tareas={tareas} actualizarTarea={actualizarTarea} />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/task/:id" element={<TaskDetail />} />
+        <Route path="/create" element={<CreateTask />} />
       </Routes>
-    </Router>
-  );
+    </div>
+  )
 }
 
-export default App;
+export default App
