@@ -3,7 +3,7 @@ import Image from "next/image";
 import ProjectGrids from "./components/ProjectGrids";
 import SkeletonCard from "./components/SkeletonCard";
 import AddButton from "./components/AddButton";
-import LoginModal from "src/app/components/loginModal";
+import LoginModal from ".src/app/components/loginModal";
 import { getProyectos } from "@/lib/getProyectos";
 
 export default async function ProjectsPage() {
