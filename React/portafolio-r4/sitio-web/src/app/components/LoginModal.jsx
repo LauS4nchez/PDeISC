@@ -1,28 +1,20 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export default function LoginModal() {
   const [jwt, setJwt] = useState(null);
   const [error, setError] = useState("");
-  const [bootstrapLoaded, setBootstrapLoaded] = useState(null);
-  const modalRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      if (typeof window !== "undefined") {
-        const bootstrap = await import("bootstrap/dist/js/bootstrap.esm.js");
-        setBootstrapLoaded(bootstrap);
-      }
-    })();
-
     const token = localStorage.getItem("jwt");
     if (token) setJwt(token);
   }, []);
 
-  const openModal = () => {
-    if (!bootstrapLoaded) return;
-    const modal = new bootstrapLoaded.Modal(modalRef.current);
-    modal.show();
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => {
+    setIsOpen(false);
+    setError("");
   };
 
   const handleLogin = async (e) => {
@@ -43,7 +35,7 @@ export default function LoginModal() {
         localStorage.setItem("jwt", data.jwt);
         setJwt(data.jwt);
         setError("");
-        bootstrapLoaded.Modal.getInstance(modalRef.current)?.hide();
+        closeModal();
         window.location.reload(); // recarga la página para actualizar botones
       } else {
         setError("Credenciales incorrectas");
@@ -67,42 +59,42 @@ export default function LoginModal() {
             Login
           </button>
 
-          <div
-            className="modal fade"
-            tabIndex="-1"
-            aria-labelledby="loginModalLabel"
-            aria-hidden="true"
-            ref={modalRef}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content" style={{ borderRadius: "12px", backgroundColor: "#1e1e1e", color: "#fff", boxShadow: "0 0 20px rgba(0,0,0,0.5)" }}>
-                <div className="modal-header border-0">
-                  <h5 className="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                  <button
-                    type="button"
-                    className="btn-close btn-close-white"
-                    onClick={() => bootstrapLoaded?.Modal.getInstance(modalRef.current)?.hide()}
-                  ></button>
+          {isOpen && (
+            <div className="custom-modal-overlay" onClick={closeModal}>
+              <div
+                className="custom-modal"
+                onClick={(e) => e.stopPropagation()} // evita cerrar al hacer click dentro
+              >
+                <div className="custom-modal-header">
+                  <h5>Iniciar sesión</h5>
+                  <button className="close-btn" onClick={closeModal}>
+                    ✕
+                  </button>
                 </div>
-                <div className="modal-body">
+                <div className="custom-modal-body">
                   <form onSubmit={handleLogin}>
                     <div className="mb-3">
-                      <label htmlFor="email" className="form-label">Email</label>
-                      <input type="email" name="email" className="form-control" required />
+                      <label htmlFor="email">Email</label>
+                      <input type="email" id="email" name="email" required />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="password" className="form-label">Contraseña</label>
-                      <input type="password" name="password" className="form-control" required />
+                      <label htmlFor="password">Contraseña</label>
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                      />
                     </div>
-                    {error && <p className="text-danger">{error}</p>}
-                    <button type="submit" className="btn btn-primary w-100">
+                    {error && <p className="error">{error}</p>}
+                    <button type="submit" className="btn-primary w-100">
                       Iniciar sesión
                     </button>
                   </form>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </>
       ) : (
         <button className="btn btn-danger" onClick={handleLogout}>

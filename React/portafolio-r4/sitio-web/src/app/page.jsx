@@ -5,6 +5,7 @@ import SkeletonCard from "./components/SkeletonCard";
 import AddButton from "./components/AddButton";
 import LoginModal from "./components/LoginModal";
 import { getProyectos } from "@/lib/getProyectos";
+import AnimatedSection from "./components/AnimatedSection";
 
 export default async function ProjectsPage() {
   const proyectos = await getProyectos();
@@ -63,7 +64,6 @@ export default async function ProjectsPage() {
           style={{ objectFit: "cover" }}
           priority
           sizes="100vw"
-          quality={100}
         />
         <div className="position-absolute top-0 start-0 w-100 h-100" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}></div>
         <div className="position-absolute top-50 start-50 translate-middle text-center text-white">
@@ -73,6 +73,7 @@ export default async function ProjectsPage() {
       </header>
 
       {/* Sobre mí */}
+      <AnimatedSection>
       <section id="sobre-mi" className="container py-5">
         <div className="row align-items-center">
           <div className="col-md-6 order-1 order-md-0 text-center text-md-start mb-4 mb-md-0">
@@ -94,46 +95,50 @@ export default async function ProjectsPage() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Proyectos */}
-      <section id="trabajos" className="py-5" style={{ backgroundColor: "#e6e3e3ff" }}>
-        <div className="container">
-          <h2 className="mb-5 me-5 text-end">Mis trabajos</h2>
-          <div className="row g-3">
-            {mostrarLimitado.length === 0
-              ? Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="col-md-4">
-                    <SkeletonCard />
-                  </div>
-                ))
-              : mostrarLimitado.map((p) => (
-                  <div key={p.id} className="col-md-4">
-                    <ProjectGrids project={p} />
-                  </div>
-                ))}
-          </div>
-
-          <div className="me-5">
-            <AddButton />
-          </div>
-
-          {proyectos.length > 3 && (
-            <div className="text-center mt-4">
-              <a href="/listaproyectos" className="btn btn-outline-primary">Ver más</a>
+        <section id="trabajos" className="py-5" style={{ backgroundColor: "#e6e3e3ff" }}>
+          <div className="container">
+            <h2 className="mb-5 me-5 text-end">Mis trabajos</h2>
+            <div className="row g-3">
+              {mostrarLimitado.length === 0
+                ? Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="col-md-4">
+                      <SkeletonCard />
+                    </div>
+                  ))
+                : mostrarLimitado.map((p) => (
+                    <div key={p.id} className="col-md-4">
+                      <ProjectGrids project={p} />
+                    </div>
+                  ))}
             </div>
-          )}
-        </div>
-      </section>
+
+            <div className="me-5">
+              <AddButton />
+            </div>
+
+            {proyectos.length > 3 && (
+              <div className="text-center mt-4">
+                <a href="/listaproyectos" className="btn btn-outline-primary">Ver más</a>
+              </div>
+            )}
+          </div>
+        </section>
 
       {/* Contacto */}
-      <section id="contacto" className="bg-light py-5">
-        <div className="container">
-          <h2>Contacto</h2>
-          <p>Podés escribirme a mi correo: <a href="mailto:ejemplo@example.com">ejemplo@example.com</a>.</p>
-          <p>O podés acceder a mi <a href="https://ar.linkedin.com/">LinkedIn</a>.</p>
-          <p>También podés seguir viendo mis distintos trabajos en mi <a href="https://github.com/LauS4nchez">Github</a>.</p>
-        </div>
-      </section>
+      <AnimatedSection>
+        <section id="contacto" className="bg-light py-5">
+          <div className="container">
+            <h2>Contacto</h2>
+            <p>Podés escribirme a mi correo: <a href="mailto:ejemplo@example.com">ejemplo@example.com</a>.</p>
+            <p>O podés acceder a mi <a href="https://ar.linkedin.com/">LinkedIn</a>.</p>
+            <p>También podés seguir viendo mis distintos trabajos en mi <a href="https://github.com/LauS4nchez">Github</a>.</p>
+          </div>
+        </section>
+      </AnimatedSection>
+
 
       {/* Footer */}
       <footer className="bg-dark text-white py-4 mt-5">
