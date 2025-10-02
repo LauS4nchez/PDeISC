@@ -1,6 +1,6 @@
 "use client";
 
-import { API_URL, URL } from "../../../config";
+import { API_URL } from "../../../config";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getProyectos } from "@/lib/getProyectos";
@@ -16,8 +16,6 @@ export default function AgregarProyecto() {
     finalizado: false,
     creacion: "",
   });
-  const [imagenes, setImagenes] = useState([]);
-  const [uploading, setUploading] = useState(false);
   const [errors, setErrors] = useState({});
   const [existingProjects, setExistingProjects] = useState([]);
 
@@ -40,10 +38,6 @@ export default function AgregarProyecto() {
       [name]: type === "checkbox" ? checked : value,
     }));
     setErrors((prev) => ({ ...prev, [name]: "" })); // Limpiar error al escribir
-  };
-
-  const handleImages = (e) => {
-    setImagenes([...e.target.files]);
   };
 
   // Validaciones
@@ -78,39 +72,12 @@ export default function AgregarProyecto() {
     if (!validateForm()) return; // No enviar si hay errores
 
     const slug = form.titulo.toLowerCase().replace(/\s+/g, "-");
-    let uploadedImagesIds = [];
-
-    if (imagenes.length > 0) {
-      setUploading(true);
-
-      uploadedImagesIds = await Promise.all(
-        imagenes.map(async (file) => {
-          const data = new FormData();
-          data.append("files", file);
-          data.append("path", "/proyectos-imagenes");
-
-          const res = await fetch(`${URL}/upload`, {
-            method: "POST",
-            headers: { Authorization: `Bearer ${jwt}` },
-            body: data,
-          });
-
-          if (!res.ok) throw new Error("Error subiendo imágenes");
-          const json = await res.json();
-          return Array.isArray(json) && json[0]?.id ? json[0].id : null;
-        })
-      );
-
-      uploadedImagesIds = uploadedImagesIds.filter(Boolean);
-      setUploading(false);
-    }
 
     try {
       const payload = {
         data: {
           ...form,
           slug,
-          ...(uploadedImagesIds.length > 0 && { capturas: uploadedImagesIds }),
         },
       };
 
@@ -127,7 +94,6 @@ export default function AgregarProyecto() {
       }
 
       setForm({ titulo: "", descripcion: "", consigna: "", link: "", finalizado: false, creacion: "" });
-      setImagenes([]);
       router.push("/"); // Redirigir al inicio o lista
     } catch (err) {
       console.error("Error creando proyecto:", err);
@@ -213,16 +179,12 @@ export default function AgregarProyecto() {
               </label>
             </div>
 
-            <div className="col-12">
-              <input type="file" multiple onChange={handleImages} className="form-control" />
-            </div>
-
             <div className="col-12 d-flex justify-content-between">
               <button type="button" className="btn btn-secondary" onClick={() => router.push("/")}>
                 Cancelar
               </button>
-              <button type="submit" disabled={uploading} className="btn btn-primary">
-                {uploading ? "Subiendo imágenes..." : "Crear Proyecto"}
+              <button type="submit" className="btn btn-primary">
+                Crear Proyecto
               </button>
             </div>
           </form>

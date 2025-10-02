@@ -1,5 +1,6 @@
 // /app/page.jsx
 import Image from "next/image";
+import Texto from "./components/Texto";
 import ProjectGrids from "./components/ProjectGrids";
 import SkeletonCard from "./components/SkeletonCard";
 import AddButton from "./components/AddButton";
@@ -78,19 +79,22 @@ export default async function ProjectsPage() {
         <div className="row align-items-center">
           <div className="col-md-6 order-1 order-md-0 text-center text-md-start mb-4 mb-md-0">
             <h2 className="mb-5">Sobre mí</h2>
-            <p>
-              Soy Lautaro Sánchez, desarrollador full stack. Me apasiona crear proyectos
-              que combinan funcionalidad y diseño limpio. Aquí encontrarás algunos de mis trabajos más recientes e interesantes.
-              <br /><br />
-              Tengo habilidades en varias tecnologías tales como Python, Javascript, Godot, Unity, CMSs, Bootstrap y demás.
-            </p>
+            <Texto
+              textoID="sobre-mi1"
+            />
+
+            <br></br>
+
+            <Texto
+              textoID="sobre-mi2"
+            />
           </div>
           <div className="col-md-6 d-flex justify-content-center justify-content-md-end">
             <img
               src="/fotoperfil.png"
               alt="Foto de perfil"
               className="rounded-circle border border-4 shadow img-fluid d-none d-md-block"
-              style={{ maxWidth: "400px", aspectRatio: "1 / 1", objectFit: "cover" }}
+              style={{ maxWidth: "350px", aspectRatio: "1 / 1", objectFit: "cover" }}
             />
           </div>
         </div>
