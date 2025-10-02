@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { API_URL } from "../../../../config";
+import { getProyectos } from "@/lib/getProyectos";
 
 export default function EditProject({ slug }) {
   const router = useRouter();
@@ -14,12 +15,15 @@ export default function EditProject({ slug }) {
     link: "",
     finalizado: false,
   });
+  const [errors, setErrors] = useState({});
+  const [existingProjects, setExistingProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     setJwt(token);
 
+    // Cargar proyecto actual + todos los demás para validaciones
     const fetchData = async () => {
       const res = await fetch(
         `${API_URL}/trabajos?filters[slug][$eq]=${slug}&populate=*`,
@@ -28,6 +32,7 @@ export default function EditProject({ slug }) {
       const data = await res.json();
       const proj = data.data?.[0] || null;
       setProject(proj);
+
       if (proj) {
         setForm({
           titulo: proj.titulo || "",
@@ -37,18 +42,66 @@ export default function EditProject({ slug }) {
           finalizado: proj.finalizado || false,
         });
       }
+
+      // Traer todos los proyectos para validar duplicados
+      const all = await getProyectos();
+      setExistingProjects(all || []);
     };
     fetchData();
   }, [slug]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+    setErrors((prev) => ({ ...prev, [name]: "" })); // limpiar error al escribir
+  };
+
+  // Validaciones
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Título
+    if (!form.titulo.trim()) {
+      newErrors.titulo = "El título es obligatorio.";
+    } else if (!/^[\w\s-]+$/.test(form.titulo)) {
+      newErrors.titulo = "Solo se permiten letras, números, espacios y guiones.";
+    } else if (
+      existingProjects.some(
+        (p) =>
+          p.titulo.toLowerCase() === form.titulo.toLowerCase() &&
+          p.documentId !== project.documentId
+      )
+    ) {
+      newErrors.titulo = "Ya existe un proyecto con este título.";
+    }
+
+    // Link
+    if (!form.link.trim()) {
+      newErrors.link = "El link es obligatorio.";
+    } else if (
+      existingProjects.some(
+        (p) => p.link === form.link && p.documentId !== project.documentId
+      )
+    ) {
+      newErrors.link = "Ya existe un proyecto con este link.";
+    }
+
+    // Descripción y consigna
+    if (!form.descripcion.trim()) newErrors.descripcion = "La descripción es obligatoria.";
+    if (!form.consigna.trim()) newErrors.consigna = "La consigna es obligatoria.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!jwt) return;
+    if (!validateForm()) return;
+
     const res = await fetch(`${API_URL}/trabajos/${project.documentId}`, {
       method: "PUT",
       headers: {
@@ -68,7 +121,7 @@ export default function EditProject({ slug }) {
   };
 
   const handleCancel = () => {
-    router.push(`/proyectos/${slug}`); // 🔙 vuelve al detalle del proyecto
+    router.push(`/proyectos/${slug}`);
   };
 
   if (!project) return <p className="text-center mt-5">Cargando...</p>;
@@ -82,40 +135,44 @@ export default function EditProject({ slug }) {
           <input
             type="text"
             name="titulo"
-            className="form-control"
+            className={`form-control ${errors.titulo ? "is-invalid" : ""}`}
             value={form.titulo}
             onChange={handleChange}
           />
+          {errors.titulo && <small className="text-danger">{errors.titulo}</small>}
         </div>
         <div className="mb-3">
           <label className="form-label">Descripción</label>
           <textarea
             name="descripcion"
-            className="form-control"
+            className={`form-control ${errors.descripcion ? "is-invalid" : ""}`}
             rows="3"
             value={form.descripcion}
             onChange={handleChange}
           />
+          {errors.descripcion && <small className="text-danger">{errors.descripcion}</small>}
         </div>
         <div className="mb-3">
           <label className="form-label">Consigna / Contexto</label>
           <textarea
             name="consigna"
-            className="form-control"
+            className={`form-control ${errors.consigna ? "is-invalid" : ""}`}
             rows="3"
             value={form.consigna}
             onChange={handleChange}
           />
+          {errors.consigna && <small className="text-danger">{errors.consigna}</small>}
         </div>
         <div className="mb-3">
           <label className="form-label">Link</label>
           <input
             type="url"
             name="link"
-            className="form-control"
+            className={`form-control ${errors.link ? "is-invalid" : ""}`}
             value={form.link}
             onChange={handleChange}
           />
+          {errors.link && <small className="text-danger">{errors.link}</small>}
         </div>
         <div className="form-check mb-3">
           <input

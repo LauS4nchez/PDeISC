@@ -66,20 +66,43 @@ export default function ProjectDetail({ slug }) {
         </div>
       )}
 
-      {link && <Link href={link} target="_blank" className="btn btn-dark me-2">GitHub</Link>}
+      <div className="d-flex align-items-center justify-content-between">
+        {/* Botón GitHub (izquierda) */}
+        {link && (
+          <Link
+            href={link}
+            target="_blank"
+            className="btn btn-dark"
+          >
+            GitHub
+          </Link>
+        )}
 
-      {jwt && (
-        <div className="mt-3">
-          <Link href={`/editar/${project.slug}`} className="btn btn-warning me-2">Editar</Link>
-          <button onClick={() => setShowModal(true)} className="btn btn-danger">
-            {/* SVG de basura */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-7z"/>
-              <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1-1H2.5a1 1 0 0 1-1 1H0v1h16V3h-1.5zm-1 1H2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4z"/>
-            </svg>
-          </button>
-        </div>
-      )}
+        {/* Botones protegidos (derecha) */}
+        {jwt && (
+          <div className="d-flex align-items-center ms-auto gap-2">
+            <Link
+              href={`/editar/${project.slug}`}
+              className="btn btn-outline-warning"
+            >
+              Editar
+            </Link>
+            <button
+              onClick={() => setShowModal(true)}
+              className="btn btn-outline-danger"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                className="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-7z" />
+                <path fillRule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1-1H2.5a1 1 0 0 1-1 1H0v1h16V3h-1.5zm-1 1H2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4z" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+
+
 
       {/* Modal */}
       {showModal && (

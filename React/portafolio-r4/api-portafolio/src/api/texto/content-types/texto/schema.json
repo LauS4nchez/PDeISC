@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "textos",
+  "info": {
+    "singularName": "texto",
+    "pluralName": "textos",
+    "displayName": "Texto"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": false
+    }
+  },
+  "attributes": {
+    "contenido": {
+      "type": "richtext",
+      "required": true,
+      "minLength": 1,
+      "default": "lorem ipsum"
+    },
+    "textoID": {
+      "type": "uid",
+      "required": true
+    }
+  }
+}
