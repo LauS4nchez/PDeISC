@@ -8,17 +8,33 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { Audio } from "expo-av";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
+type LoginScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  // función para reproducir sonido
+  const playSuccessSound = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/success.mp3")
+      );
+      await sound.playAsync();
+    } catch (error) {
+      console.log("Error al reproducir el sonido:", error);
+    }
+  };
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -44,6 +60,8 @@ export default function LoginScreen() {
           text1: "Inicio de sesión correcto",
           text2: `Bienvenido ${user.username}`,
         });
+
+        await playSuccessSound();
 
         setTimeout(() => {
           navigation.replace("Welcome", { username: user.username });
